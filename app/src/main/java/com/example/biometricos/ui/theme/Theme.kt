@@ -31,18 +31,20 @@ val TextoSecundarioGris = Color(0xFFC9C5CA)
 
 
 private val EsquemaOscuro = darkColorScheme(
-    primary = LimaAcento,
-    secondary = TextoSecundarioGris,
-    tertiary = LimaAcento,
-    background = GrisOscuroFondo,
-    surface = GrisCarbonProfundo,
-    onPrimary = Color.Black,
+    primary = SpotifyGreen,
+    secondary = GrisTexto,
+    tertiary = SpotifyGreenDark,
+    background = NegritoFondo,
+    surface = GrisCarbono,
+    onPrimary = Color.White,
     onSecondary = Color.White,
-    onTertiary = Color.Black,
-    onBackground = TextoPrimarioBlanco,
-    onSurface = TextoPrimarioBlanco,
-    surfaceVariant = GrisSuperficieCards,
-    onSurfaceVariant = TextoPrimarioBlanco
+    onTertiary = Color.White,
+    onBackground = BlancoTexto,
+    onSurface = BlancoTexto,
+    surfaceVariant = GrisCard,
+    onSurfaceVariant = BlancoTexto,
+    primaryContainer = SpotifyGreenDark,
+    onPrimaryContainer = BlancoTexto
 )
 
 

@@ -1,76 +1,69 @@
 package com.example.biometricos.activitys
 
-
-import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContract
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import com.example.biometricos.components.LogEntryCard
-import com.example.biometricos.components.NewEntryFAB
-import com.example.biometricos.components.WelcomeCard
-import com.example.biometricos.dominios.listaEntradaEjemplo
-
+import com.example.biometricos.components.HomeHeaders
 
 @Composable
 fun HomeActivity() {
     val context = LocalContext.current
-
-    val permissionLauncher= rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
-        onResult = { isGranted ->
-            if (isGranted){
-                Toast.makeText(context, "Permiso concedido", Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(context, "Se requiere el micrófono para grabar entradas de voz", Toast.LENGTH_SHORT).show()
-            }
-        }
-    )
+    var tabSeleccionado by remember { mutableStateOf(0) }
+    var recargarBitacora by remember { mutableStateOf(0) }
 
     Scaffold(
-        floatingActionButton = {
-            NewEntryFAB(
-                onClick = { Toast.makeText(context, "Nueva Entrada", Toast.LENGTH_SHORT).show() },
-                modifier = Modifier.padding(16.dp)
-            )
+        topBar = { HomeHeaders() },
+        bottomBar = {
+            NavigationBar {
+                NavigationBarItem(
+                    selected = tabSeleccionado == 0,
+                    onClick = { tabSeleccionado = 0 },
+                    icon = { Icon(Icons.Default.List, contentDescription = "Bitácora") },
+                    label = { Text("Bitácora") }
+                )
+                NavigationBarItem(
+                    selected = tabSeleccionado == 1,
+                    onClick = { tabSeleccionado = 1 },
+                    icon = { Icon(Icons.Default.Mic, contentDescription = "Registrar") },
+                    label = { Text("Registrar") }
+                )
+                NavigationBarItem(
+                    selected = tabSeleccionado == 2,
+                    onClick = { tabSeleccionado = 2 },
+                    icon = { Icon(Icons.Default.BarChart, contentDescription = "Progreso") },
+                    label = { Text("Progreso") }
+                )
+                NavigationBarItem(
+                    selected = tabSeleccionado == 3,
+                    onClick = { tabSeleccionado = 3 },
+                    icon = { Icon(Icons.Default.Person, contentDescription = "Perfil") },
+                    label = { Text("Perfil") }
+                )
+            }
         }
-    ){ innerPadding ->
-        Column(
+    ) { innerPadding ->
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-
-                .padding(innerPadding)
                 .background(MaterialTheme.colorScheme.background)
+                .padding(innerPadding)
         ) {
-            LazyColumn(
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                item {
-                    WelcomeCard(nombreUsuario = "Usuario")
-                }
-
-                items(listaEntradaEjemplo){ entrada ->
-                    LogEntryCard(
-                        entrada = entrada,
-                        onClick = {
-                            Toast.makeText(context, "Entrada: ${entrada.titulo}", Toast.LENGTH_SHORT).show()
-                        }
-                    )
-                }
+            when (tabSeleccionado) {
+                0 -> BitacoraListActivity(recargar = recargarBitacora)
+                1 -> VoiceEntryActivity(onEntradaGuardada = {
+                    recargarBitacora++
+                    tabSeleccionado = 0
+                })
+                2 -> GraficaActivity()
+                3 -> PerfilActivity()
             }
         }
     }

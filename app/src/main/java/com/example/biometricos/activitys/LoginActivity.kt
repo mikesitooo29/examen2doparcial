@@ -1,42 +1,40 @@
 package com.example.biometricos.activitys
 
-import android.hardware.biometrics.BiometricManager.Authenticators.BIOMETRIC_STRONG
-import android.hardware.biometrics.BiometricManager.Authenticators.DEVICE_CREDENTIAL
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Fingerprint
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import com.example.biometricos.components.ActionButton
-import com.example.biometricos.components.AppTitle
-import com.example.biometricos.components.FinggerprintIcon
+import com.example.biometricos.ui.theme.SpotifyGreen
+import com.example.biometricos.ui.theme.SpotifyGreenDark
+import com.example.biometricos.ui.theme.NegritoFondo
+import com.example.biometricos.ui.theme.GrisCard
 
 @Composable
-fun LoginActivity(onAutenticacionExitosa: ()-> Unit) {
-
+fun LoginActivity(onAutenticacionExitosa: () -> Unit) {
     val context = LocalContext.current
-    val activity =  context as? FragmentActivity
+    val activity = context as? FragmentActivity
 
     Box(
         modifier = Modifier
@@ -44,62 +42,137 @@ fun LoginActivity(onAutenticacionExitosa: ()-> Unit) {
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        MaterialTheme.colorScheme.surface,
-                        MaterialTheme.colorScheme.background
+                        SpotifyGreenDark.copy(alpha = 0.4f),
+                        NegritoFondo,
+                        NegritoFondo
                     )
                 )
             )
-    ){
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp),
+                .padding(horizontal = 32.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            FinggerprintIcon(modifier = Modifier.padding(bottom = 24.dp))
-            AppTitle(text = "Bitacora")
-            Spacer(modifier = Modifier.height(48.dp))
 
-            FinggerprintIcon(size = 120.dp, alpha = 0.6f)
-
-            Spacer(modifier = Modifier.height(48.dp))
-
-            ActionButton(
-                onClick = {
-                    if (activity != null) {
-                        LanzarBiometrica(activity, onAutenticacionExitosa)
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "Error: No se pudo iniciar la autenticación biométrica",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                },
-                text = "Iniciar sesión",
-                icon = Icons.Default.Fingerprint
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-
-            TextButton(onClick = {}) {
-                Text(
-                    text = "Usar pin de dispositivo",
-                    color = MaterialTheme.colorScheme.secondary
+            // Logo / ícono principal
+            Box(
+                modifier = Modifier
+                    .size(140.dp)
+                    .clip(CircleShape)
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(SpotifyGreen, SpotifyGreenDark)
+                        )
+                    )
+                    .border(3.dp, SpotifyGreen.copy(alpha = 0.5f), CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Fingerprint,
+                    contentDescription = "Huella",
+                    tint = Color.White,
+                    modifier = Modifier.size(80.dp)
                 )
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Nombre de la app
+            Text(
+                text = "ControlRun",
+                style = MaterialTheme.typography.headlineMedium.copy(
+                    fontWeight = FontWeight.Black,
+                    fontSize = 36.sp,
+                    letterSpacing = 2.sp
+                ),
+                color = Color.White
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "Tu rendimiento. Tu control.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = SpotifyGreen,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Medium
+            )
+
+            Spacer(modifier = Modifier.height(60.dp))
+
+            // Card de acceso
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(containerColor = GrisCard)
+            ) {
+                Column(
+                    modifier = Modifier.padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Acceso seguro",
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Usa tu huella dactilar para acceder a tus entrenamientos",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Gray,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Button(
+                        onClick = {
+                            if (activity != null) {
+                                LanzarBiometrica(activity, onAutenticacionExitosa)
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Error al iniciar autenticación",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = SpotifyGreen,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Fingerprint,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Iniciar con huella",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
+                        )
+                    }
+                }
             }
         }
     }
-
-
 }
 
-fun LanzarBiometrica(activity: FragmentActivity, onAutenticacionExitosa: () -> Unit){
-
+fun LanzarBiometrica(activity: FragmentActivity, onAutenticacionExitosa: () -> Unit) {
     val executor = ContextCompat.getMainExecutor(activity)
 
     val biometricPrompt = BiometricPrompt(activity, executor,
-        object: BiometricPrompt.AuthenticationCallback(){
+        object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                 super.onAuthenticationError(errorCode, errString)
                 Toast.makeText(activity, "Error: $errString", Toast.LENGTH_SHORT).show()
@@ -107,7 +180,7 @@ fun LanzarBiometrica(activity: FragmentActivity, onAutenticacionExitosa: () -> U
 
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                 super.onAuthenticationSucceeded(result)
-                Toast.makeText(activity, "Desbloqueo exitoso", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "¡Bienvenido a ControlRun!", Toast.LENGTH_SHORT).show()
                 onAutenticacionExitosa()
             }
 
@@ -117,17 +190,17 @@ fun LanzarBiometrica(activity: FragmentActivity, onAutenticacionExitosa: () -> U
             }
         })
 
-    val promptInfo= BiometricPrompt.PromptInfo.Builder()
-        .setTitle("Acceso a la bitacora")
-        .setSubtitle("Autenticacion reqeurida")
-        .setDescription("Usa tu huella para acceder a la bitacora")
+    val promptInfo = BiometricPrompt.PromptInfo.Builder()
+        .setTitle("ControlRun")
+        .setSubtitle("Autenticación requerida")
+        .setDescription("Usa tu huella para acceder a tus entrenamientos")
         .setAllowedAuthenticators(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)
         .build()
 
     val biometricManager = BiometricManager.from(activity)
-    if (biometricManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)== BiometricManager.BIOMETRIC_SUCCESS){
+    if (biometricManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL) == BiometricManager.BIOMETRIC_SUCCESS) {
         biometricPrompt.authenticate(promptInfo)
-    }else{
+    } else {
         Toast.makeText(activity, "Huella no configurada en el dispositivo", Toast.LENGTH_SHORT).show()
     }
 }

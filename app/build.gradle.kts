@@ -15,7 +15,6 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -38,13 +37,25 @@ android {
 }
 
 dependencies {
-
-    /*dependecias del la app*/
-    val nav_version = "2.9.7"
+    // Ya existentes
     implementation("androidx.biometric:biometric:1.1.0")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
-    implementation("androidx.navigation:navigation-compose:${nav_version}")
+    implementation("androidx.navigation:navigation-compose:2.9.7")
 
+    // ── NUEVAS dependencias ──────────────────────────────────────────────
+    // Retrofit + Gson (comunicación con el backend)
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+
+    // OkHttp logging (útil para depuración)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    // MPAndroidChart (gráficas)
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+    // ────────────────────────────────────────────────────────────────────
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
