@@ -1,4 +1,4 @@
-package com.example.biometricos.activitys
+package com.example.biometricos.activities
 
 import android.content.Intent
 import android.net.ConnectivityManager

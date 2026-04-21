@@ -4,8 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    // ⚠️ Reemplaza con tu IP local (ifconfig/ipconfig) o URL de producción
-    private const val BASE_URL = "http://192.168.100.13:3000/"
+    private const val BASE_URL = "https://backend-atleta-3jbt.onrender.com/"
 
     val api: ApiService by lazy {
         Retrofit.Builder()

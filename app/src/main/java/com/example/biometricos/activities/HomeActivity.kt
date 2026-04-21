@@ -1,4 +1,4 @@
-package com.example.biometricos.activitys
+package com.example.biometricos.activities
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

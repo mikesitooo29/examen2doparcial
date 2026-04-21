@@ -1,4 +1,4 @@
-package com.example.biometricos.activitys
+package com.example.biometricos.activities
 
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL

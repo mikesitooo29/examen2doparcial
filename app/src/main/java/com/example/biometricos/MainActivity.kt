@@ -11,8 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.FragmentActivity
-import com.example.biometricos.activitys.HomeActivity
-import com.example.biometricos.activitys.LoginActivity
+import com.example.biometricos.activities.HomeActivity
+import com.example.biometricos.activities.LoginActivity
 import com.example.biometricos.ui.theme.BiometricosTheme
 
 class MainActivity : FragmentActivity() {
